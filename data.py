@@ -7,6 +7,3 @@ df = pd.DataFrame({
 })
 
 df = df.set_index("dmu")
-print(df)
-print(df.loc["B"])
-print(df.loc["B", "teachers"])
