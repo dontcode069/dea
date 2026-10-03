@@ -15,7 +15,16 @@ for dmu in df.index:
 
     for other in df.index:
         o = df.loc[other]
-        prob += float(o["passes"]) * u - float(o["teachers"]) * v1 - float(o["rooms"]) * v2 <= 0
+        prob += (float(o["passes"]) * u - float(o["teachers"]) * v1 - float(o["rooms"]) * v2 <= 0), f"cap_{other}"
 
     prob.solve(pulp.PULP_CBC_CMD(msg=0))
-    print(dmu, round(pulp.value(prob.objective), 3))
+
+    score = pulp.value(prob.objective)
+
+    peers = []
+    for other in df.index:
+        slack = prob.constraints[f'cap_{other}'].slack
+        if abs(slack) < 1e-6:
+            peers.append(other)
+
+    print(dmu, round(score, 3), "reference set:", peers)
