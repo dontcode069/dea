@@ -31,4 +31,4 @@ for dmu in df.index:
         if abs(slack) < 1e-6:
             peers.append(other)
 
-    print(dmu, round(score, 3), "reference set:", peers)
+    print(dmu, round(score, 3), "u0 =", round(pulp.value(u0), 3), "reference set:", peers)
